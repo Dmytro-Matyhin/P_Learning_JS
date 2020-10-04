@@ -1,0 +1,20 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -20px -15px;
+}
+
+.row > .column {
+  padding: 20px 15px;
+}
+
+.row-small {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -10px -15px;
+}
+
+.row-small > .column {
+  padding: 10px 15px;
+}
+

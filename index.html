@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/main.css" />
+  <title>Students</title>
+</head>
+<body>
+  <div class="row">
+    <div class="width-2-3">
+      <div class="container">
+        <form id="form" class="form">
+          <div class="row">
+            <div class="column width-1-3">
+              <label for="student-name" class="label">Student name</label>
+              <input type="text" placeholder="Student Name" name="student-name" class="input">
+            </div>
+            <div class="column width-1-3">
+              <label for="student-surname" class="label">Student surname</label>
+              <input type="text" placeholder="Student Surname" name="student-surname" class="input">
+            </div>
+            <div class="column width-1-3">
+              <div class="form-control">
+                <label for="student-age" class="label">Student age</label>
+                <input type="text" placeholder="Student Age" name="student-age" class="input">
+              </div>
+            </div>
+          </div>
+          <h3 class="title-marks">Student Marks</h3>
+            <div class="row-small">
+              <div class="column width-1-5">
+                <div class="form-control">
+                  <input type="number" placeholder="first mark" name="student-marks" class="input">
+                </div>
+              </div>
+              <div class="column width-1-5">
+                <div class="form-control">
+                  <input type="number" placeholder="second mark" name="student-marks" class="input">
+                </div>
+              </div>
+              <div class="column width-1-5">
+                <div class="form-control">
+                  <input type="number" placeholder="third mark" name="student-marks" class="input">
+                </div>
+              </div>
+              <div class="column width-1-5">
+                <div class="form-control">
+                  <input type="number" placeholder="fourth mark" name="student-marks" class="input">
+                </div>
+              </div>
+              <div class="column width-1-5">
+                <div class="form-control">
+                  <input type="number" placeholder="fifth mark" name="student-marks" class="input">
+                </div>
+              </div>
+            </div>
+          <button class="button button-success" id="add-student">ADD STUDENT</button>
+        </form>
+      </div>
+    </div>
+    <div class="width-1-3">
+      <div class="container">
+        <div class="list-block">
+          <ol class="list" id="list"></ol>
+          <button class="button button-update" id="update-list">UPDATE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/components/classes.js"></script>
+  <script src="js/components/validate.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>
