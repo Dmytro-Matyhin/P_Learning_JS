@@ -1,0 +1,27 @@
+.my-button {
+  margin: 10px;
+}
+
+.button-icon {
+  border: none;
+  background-color: transparent;
+  text-transform: none;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+.button-svg {
+  padding-left: 10px;
+}
+.button-like {
+  color: #28a745;
+}
+.button-like:hover {
+  color: #196129;
+}
+.button-dislike {
+  color: #FF0032;
+}
+.button-dislike:hover  {
+  color: #b40326;
+}

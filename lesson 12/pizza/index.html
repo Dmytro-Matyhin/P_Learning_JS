@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" 
+  integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/main.css">
+  <title>Pizza</title>
+</head>
+<body>
+   <div class="container">
+    <form class="form" name="form" id="form">
+      <div class="form-radio">
+        <h4 class="form-title">Выберите размер пиццы</h4>
+        <div class="d-flex flex-row justify-content-between">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="size" id="inlineRadio1" value="small">
+            <label class="form-check-label" for="inlineRadio1">Маленькая</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="size" id="inlineRadio2" value="middle" checked>
+            <label class="form-check-label" for="inlineRadio2">Средняя</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="size" id="inlineRadio3" value="large">
+            <label class="form-check-label" for="inlineRadio3">Большая</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-checked">
+        <h4 class="form-title">Выберите ингредиенты</h4>
+        <div class="d-flex flex-row justify-content-between form-ingredients">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="inlineCheckbox" value="sauce">
+            <label class="form-check-label" for="inlineCheckbox1">Coyc</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="inlineCheckbox" value="cheese">
+            <label class="form-check-label" for="inlineCheckbox2">Сыр</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="inlineCheckbox" value="meat">
+            <label class="form-check-label" for="inlineCheckbox3">Мясо</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="inlineCheckbox" value="vegetables">
+            <label class="form-check-label" for="inlineCheckbox4">Овощи</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="inlineCheckbox" value="seafoods">
+            <label class="form-check-label" for="inlineCheckbox5">Морепродукты</label>
+          </div>
+        </div>
+        <button type="button" class="btn btn-success" name="create-order">Заказать</button>
+        <div class="modal-payment" name="modal-payment">
+          <div class="modal-overlay">
+            <div class="modal-window">
+              <h3 class="modal-title">Вы подтверждаете оплату?</h3>
+              <div class="modal-footer">
+                <button class="btn btn-secondary my-button" name="confirm-payment">Да</button>
+                <button class="btn btn-danger my-button" name="cancel-payment">Нет</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="alert alert-warning alert-dismissible fade show alert-message" role="alert" name="alert-message">
+      <strong>Вы отменили оплату!</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="alert alert-warning coocked-message" role="alert" name="coocked">
+      <span>Ваш заказ готовиться</span>
+    </div>
+    <div class="alert alert-primary pickup-message" role="alert" name="pick-up">
+      <span>Курьер забрал пиццу</span>
+    </div>
+    <div class="alert alert-info delivered-message" role="alert" name="delivered">
+      <span>Курьер доставил пиццу</span>
+    </div>
+    
+    <form class="form-feedback" name="form-feedback">
+      <h4 class="form-title title-center">Оцените пожалуйста наш сервис</h4>
+      <div class="d-flex flex-row justify-content-around">
+        <div class="form-check form-check-inline">
+          <button class="button-icon button-like" name="like">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+              <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/>
+            </svg>
+            <span class="button-svg">Like</span>
+          </button>
+        </div>
+        <div class="form-check form-check-inline">
+          <button class="button-icon button-dislike" name="dislike">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+              <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+            <span class="button-svg">Dislike</span>
+          </button>
+        </div>
+      </div>
+    </form>
+    <div class="alert alert-dark feedback-message" role="alert" name="feedback-message">
+      <span>Спасибо за ваш ответ!</span>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" 
+  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" 
+  integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" 
+  integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  <script src="js/components/validate.js"></script>
+  <script src="js/components/store-service.js"></script>
+  <script src="js/components/order.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
