@@ -51,11 +51,10 @@ function init() {
     modalPayment.classList.remove('open');
 
     let size = pizzaSize.value;
-    let ingredients = result;
 
-  Order.getListOfOrders({
+  Order.createOrder({
     size,
-    ingredients,
+    ingredients: result,
     status: 'ordered',
     });
 
@@ -64,12 +63,13 @@ function init() {
     form.after(coockedAlert);
 
     setTimeout(() => pickUpAlert.classList.add('ready'), 2000); 
-    order.store.map(item => item.status = 'coocked')
+    Order.changeOrderStatus('ordered', 'coocked');
     // console.log(Order.getOrderByStatus('coocked'));
     coockedAlert.after(pickUpAlert);
 
     setTimeout(() => deliveredAlert.classList.add('shipped'), 4000);
-    order.store.map(item => item.status = 'delivered')
+    Order.changeOrderStatus('coocked', 'delivered');
+    // console.log(Order.getOrderByStatus('delivered'));
     pickUpAlert.after(deliveredAlert);
 
     setTimeout(() => formFeedback.classList.add('show-feedback'), 6000);
@@ -77,7 +77,6 @@ function init() {
 
     // console.log(Order.getOrderBySize('middle'));
     // console.log(Order.getOrderBySize('large'));
-    // console.log(Order.getOrderByStatus('delivered'));
     // console.log(order);
   }
 

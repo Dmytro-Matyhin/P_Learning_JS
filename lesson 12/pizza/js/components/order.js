@@ -18,7 +18,13 @@ class Order {
     return findedOrder;
   } 
    
-  static getListOfOrders(data) {
+  static createOrder(data) {
     order.setItem(new Order(data));
+  }
+
+  static changeOrderStatus(prevStatus, currStatus) {
+    let findedOrder = order.getItem('status', prevStatus);
+    findedOrder.status = currStatus;
+    return findedOrder;
   }
 }
