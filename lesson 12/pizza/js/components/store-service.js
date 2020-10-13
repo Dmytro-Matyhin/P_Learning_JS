@@ -1,11 +1,11 @@
-class StoreService {
+export default class StoreService {
   store = [];
   constructor(initialStore = []) {
     this.store = initialStore;
   }
 
-  setItem(order) {
-    this.store.push(order);
+  setItem(value) {
+    this.store.push(value);
   } 
 
   getItem(key, value) {

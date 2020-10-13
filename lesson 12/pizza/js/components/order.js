@@ -1,6 +1,8 @@
+import StoreService from './store-service.js';
+
 let order = new StoreService();
 
-class Order {
+export default class Order {
 
   constructor({size, ingredients, status}) {
     this.size = size,

@@ -1,3 +1,6 @@
+import Order from './components/order.js';
+import {result, validate} from './components/validate.js';
+
 window.onload = init;
 
 function init() {
@@ -23,6 +26,8 @@ function init() {
   let buttonDislike = document.querySelector('button[name="dislike"]');
   let feedbackMessage = document.querySelector('div[name="feedback-message"]');
 
+  let addTimeOutMessage = (params, nameClass, ms)  => setTimeout(() => params.classList.add(nameClass), ms);
+
   createOrder.onclick = function() {
     if (!validate(checkBox)) {
       checkBoxError.classList.add('error');
@@ -41,8 +46,8 @@ function init() {
     modalPayment.classList.remove('open')
     alertMessage.classList.add('show-message');
     form.after(alertMessage);
-    checkBox.forEach(item => item.checked = false);
-    result = [];
+    form.reset();
+    result.splice(0, result.length);
     setTimeout(() => alertMessage.classList.remove('show-message'), 2500);
   }
 
@@ -52,32 +57,31 @@ function init() {
 
     let size = pizzaSize.value;
 
-  Order.createOrder({
-    size,
-    ingredients: result,
-    status: 'ordered',
-    });
+    Order.createOrder({
+      size,
+      ingredients: result,
+      status: 'ordered',
+      });
 
     form.style.display = 'none';
     coockedAlert.classList.add('coocking-progress');
     form.after(coockedAlert);
 
-    setTimeout(() => pickUpAlert.classList.add('ready'), 2000); 
+    addTimeOutMessage(pickUpAlert, 'ready', 2000);
     Order.changeOrderStatus('ordered', 'coocked');
     // console.log(Order.getOrderByStatus('coocked'));
     coockedAlert.after(pickUpAlert);
 
-    setTimeout(() => deliveredAlert.classList.add('shipped'), 4000);
+    addTimeOutMessage(deliveredAlert, 'shipped', 4000);
     Order.changeOrderStatus('coocked', 'delivered');
     // console.log(Order.getOrderByStatus('delivered'));
     pickUpAlert.after(deliveredAlert);
 
-    setTimeout(() => formFeedback.classList.add('show-feedback'), 6000);
+    addTimeOutMessage(formFeedback, 'show-feedback', 6000);
     deliveredAlert.after(formFeedback);
 
     // console.log(Order.getOrderBySize('middle'));
     // console.log(Order.getOrderBySize('large'));
-    // console.log(order);
   }
 
   buttonLike.onclick = function(event) {
@@ -94,8 +98,8 @@ function init() {
     setTimeout(() => {
       feedbackMessage.classList.remove('answer'),
       form.style.display = 'block';
-      checkBox.forEach(item => item.checked = false);
-      result = [];
+      form.reset();
+      result.splice(0, result.length);
     }, 3000);
   }
 
@@ -113,8 +117,8 @@ function init() {
     setTimeout(() => {
       feedbackMessage.classList.remove('answer'),
       form.style.display = 'block';
-      checkBox.forEach(item => item.checked = false);
-      result = [];
+      form.reset();
+      result.splice(0, result.length);
     }, 3000);
   }
 }

@@ -1,6 +1,6 @@
-let result = [];
+export let result = [];
 
-function validate(elements) {
+export function validate(elements) {
   let valid = false;
 
   for (let elem of elements) {
