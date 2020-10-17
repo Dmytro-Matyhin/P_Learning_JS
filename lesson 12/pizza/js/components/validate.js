@@ -1,16 +1,13 @@
-export let result = [];
-
-export function validate(elements) {
+export default function validate(elements) {
   let valid = false;
+  let count = 0;
 
   for (let elem of elements) {
     if (elem.checked) {
-      if (!result.includes(elem.value)) {
-        result.push(elem.value);
-        valid = true;
-      }
+      valid = true;
+      count++;
     }
-     if (result.length < 3) {
+     if (count < 3) {
       valid = false;
     }
   }

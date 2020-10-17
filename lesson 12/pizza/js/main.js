@@ -1,5 +1,5 @@
 import Order from './components/order.js';
-import {result, validate} from './components/validate.js';
+import validate from './components/validate.js';
 
 window.onload = init;
 
@@ -47,7 +47,6 @@ function init() {
     alertMessage.classList.add('show-message');
     form.after(alertMessage);
     form.reset();
-    result.splice(0, result.length);
     setTimeout(() => alertMessage.classList.remove('show-message'), 2500);
   }
 
@@ -56,10 +55,16 @@ function init() {
     modalPayment.classList.remove('open');
 
     let size = pizzaSize.value;
+    let ingredients = [];
+    for (let elem of checkBox) {
+      if (elem.checked) {
+        ingredients.push(elem.value)
+      }
+    }
 
     Order.createOrder({
       size,
-      ingredients: result,
+      ingredients,
       status: 'ordered',
       });
 
@@ -99,7 +104,6 @@ function init() {
       feedbackMessage.classList.remove('answer'),
       form.style.display = 'block';
       form.reset();
-      result.splice(0, result.length);
     }, 3000);
   }
 
@@ -118,7 +122,6 @@ function init() {
       feedbackMessage.classList.remove('answer'),
       form.style.display = 'block';
       form.reset();
-      result.splice(0, result.length);
     }, 3000);
   }
 }
