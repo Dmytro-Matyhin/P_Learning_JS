@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="main.css">
+  <title>TODO List</title>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Задачи на день</h1>
+    <ul id="ul" class="list">
+      <li>Сходить в магазин</li>
+      <li>Прочитать книгу</li>
+      <li>Позвонить другу</li>
+      <li>Поработать</li>
+      <li>Принять гостей</li>
+    </ul>
+
+    <div id="btn">
+      <button class="button" data-action="addToTheBegining">Add To The Begining</button>
+      <button class="button" data-action="addToTheEnd">Add To The End</button>
+      <button class="button" data-action="deleteSelected">Delete Selected</button>
+      <button class="button" data-action="sorted">Sort</button>
+    </div>
+  </div>
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
