@@ -21,23 +21,15 @@ export default class Buttons {
   }
 
   deleteSelected() {
-    let count = 0;
-    while (count < 5) {
-      for (let key of ul.children) {
-        if (key.classList == 'selected') {
-          key.remove();
-        }
-      }
-      count++;
-    }
+    let selectedListItem = document.querySelectorAll('.selected');
+    selectedListItem.forEach(el => el.remove());
   }
   
   sorted() {
-    let ulElements = [...ul.children];
-    let sortedElements = ulElements.sort((a, b) => a.outerText - b.outerText);
-    console.log(sortedElements)
-    ul.innerHTML = '';
-    return sortedElements.forEach(el => ul.append(el));
+    let selectedListItem = document.querySelectorAll('.selected');
+    selectedListItem = [...selectedListItem];
+    let sortedElements = selectedListItem.sort((a, b) => a.textContent > b.textContent ? 1 : -1);
+    return sortedElements.forEach(el => ul.append(el));  
   }
 
   onClick(event) {
