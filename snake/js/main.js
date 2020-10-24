@@ -1,49 +1,56 @@
+document.addEventListener('DOMContentLoaded', init);
+
+// DEFAULT VALUES
+
 let boxSize = 32;
 let borderSize = 2;
 let gridCount = 13;
-let speed = 1000;
-let processGame;
+
+let speed = 500;
+let processGame, messageBox, startButton, endButton, gridContainer, scoreContainer;
 let snake = createSnakeData(Math.floor(gridCount / 2), Math.floor(gridCount / 2), 5);
 let food = createFood();
 let direction = 'left';
-let gridContainer;
-
-document.addEventListener('DOMContentLoaded', init);
-document.addEventListener('keydown', snakeHandler);
-
-
-function snakeHandler(event) {
-  updateDirection(event);
-}
-
-function updateDirection(event) {
-  console.log(event.keyCode);
-  if (event.keyCode == 37 && direction != 'right')
-      direction = 'left';
-  if (event.keyCode == 38 && direction != 'down')
-      direction = 'up';
-  if (event.keyCode == 39 && direction != 'left')
-      direction = 'right';
-  if (event.keyCode == 40 && direction != 'up')
-      direction = 'down';
-}
-
-
+let score = 0;
 
 function init() {
+  let form = find('#controls-form');
   gridContainer = find('#snake-container');
-  let messageMox = find('#message');
-  let score = find('.score > b');
+  messageBox = find('#message');
+  startButton = find('#start-game');
+  endButton = find('#end-game');
+  scoreContainer = find('.score b');
 
   initGrid(gridCount, gridContainer);
-    
-    // ----------------------------------------------
-    // startBtn.addEventListener('click', startHandler);
-    // endBtn.addEventListener('click', endHandler);
-    // игра должнв стартовать и заканчиватся по клику на кнопки 
-    // ----------------------------------------------
 
-  startGame();
+  document.addEventListener('keydown', snakeHandler);
+  startButton.addEventListener('click', startHandler);
+  endButton.addEventListener('click', endHandler);
+
+  function startHandler() {
+    speed = parseInt(form.speed.value);
+    startGame(gridContainer);
+    hiddenElements(startButton, endButton);
+  }
+
+  function endHandler() {
+    endGame();
+  }
+
+  function snakeHandler(event) {
+    updateDirection(event);
+  }
+  
+  function updateDirection(event) {
+    if (event.keyCode == 37 && direction != 'right')
+        direction = 'left';
+    if (event.keyCode == 38 && direction != 'down')
+        direction = 'up';
+    if (event.keyCode == 39 && direction != 'left')
+        direction = 'right';
+    if (event.keyCode == 40 && direction != 'up')
+        direction = 'down';
+  }
 }
 
 function createSnakeData(cell, row, count) {
@@ -65,20 +72,15 @@ function createFood() {
   return food;
 }
 
+// GAME PROCESS
+
 function startGame() {
+  messageBox.innerHTML = 'Welcome to Snake!';
   let randomBox = generateBoxForEat();
 
   updateSnake();
   processGame = setInterval(() => {
-    let { cell, row } = snake[0];
-
-        // ----------------------------------
-        // Нужно чтобы ф-ция noWallMode (реализует возможность змейки проходить через стены) работала так
-        // let {
-        //     cell,
-        //     row
-        // } = noWallMode(snake[0])
-        // ----------------------------------
+    let {cell, row} = snake[0];
 
     switch (direction) {
       case 'left': {
@@ -111,23 +113,15 @@ function startGame() {
       break;
     }
 
-    snake.pop()
-    console.log(snake[0].cell, snake.length);
+    snake.pop();
+    clearSnake(gridContainer);
     updateSnake();
   }, speed);
-
+  
   function updateSnake() {
-    clearSnake();
-      // ---------------------------------------
-      // написать ф-цию checkOnEated, которая проверяет съела ли змейка еду, если да добавляет +1 в хвост и в score
-      // checkOnEated(randomBox.dataset);
-      // ----------------------------------
 
-
-      // ----------------------------------
-      // написать ф-цию checkOnTailCrush, которая проверяет врезалась ли голова змейки в себя же, если да - завершить игру
-      // checkOnTailCrush();
-      // ---------------------------------------
+    checkOnEated(randomBox.dataset);
+    // checkOnTailCrush()
 
     for (const [index, snakePart] of snake.entries()) {
       let cell = findByCoords(snakePart.cell, snakePart.row);
@@ -139,12 +133,17 @@ function startGame() {
     }
   }
 
-  function clearSnake() {
-    let cells = gridContainer.querySelectorAll('.snake');
-    for (const cell of cells) {
-      cell.className = 'snake-cell';
-    }
+  function checkOnEated({cell, row}) {
+    if (snake[0].cell == +cell && snake[0].row == +row) {
+      updateScore(score += 1);
+      food.remove();
+      randomBox = generateBoxForEat();
+      snake.push({cell, row});
+    } 
   }
+
+  // function checkOnTailCrush(){}
+  // function noWallMode(){}
 
   function generateBoxForEat() {
     let cell = getRandomInt(0, gridCount);
@@ -153,20 +152,28 @@ function startGame() {
     randomBox.append(food);
     return randomBox;
   }
+}
 
-  function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
+function endGame(message = 'Game Over!') {
+  clearTimeout(processGame);
+  direction = 'left';
+  messageBox.innerHTML = message;
+  hiddenElements(endButton, startButton);
+  updateScore(0);
+  food.remove();
+  setTimeout(() => {
+    clearSnake(gridContainer);
+  });
+}
+
+function clearSnake(gridContainer) {
+  let cells = gridContainer.querySelectorAll('.snake');
+  for (const cell of cells) {
+    cell.className = 'snake-cell';
   }
 }
-// ----------------------------------
-// дополнить эту функцию - вернуть все данные в начальное состояние
-// и использовать функцию во всех случаях. где игра завершается
-// function endGame(message = 'Game Over!') {
-//     clearTimeout(processGame);
-// }
-// ----------------------------------
 
-// SNAKE FIELD
+// CREATE FIELD
 
 function initGrid(gridCount, target) {
   target.style.width = target.style.height = (boxSize * gridCount) + 'px';
@@ -194,11 +201,23 @@ function createSnakeCell(snakeClass, row, cell) {
   return div;
 }
 
-
 // AUXILIARY FUNCTIONS
 
 function find(selector) {
   return document.querySelector(selector);
+}
+
+function updateScore(score) {
+   scoreContainer.innerHTML = score;
+}
+
+function hiddenElements(firstElement, secondElement) {
+  firstElement.style.display = 'none';
+  secondElement.style.display = 'block';
+}
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
 }
 
 function findByCoords(cell, row) {
