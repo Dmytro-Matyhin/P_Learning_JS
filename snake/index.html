@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SNAKE</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <script src="./js/main.js"></script>
     <link rel="stylesheet" href="./css/main.css">
@@ -17,19 +17,16 @@
       </div>
       <div class="controls">
         <form id="controls-form">
-            <label>
-                <span class="label">Speed</span>
-                <select id="stacked-state" name="speed">
-                  <option value="1000">Small</option>
-                  <option value="600">Medium</option>
-                  <option value="400">Fast</option>
-                  <option value="200">Faster</option>
-                  <option value="100">Extra</option>
-                </select>
-            </label>
-            <label>
-              <span class="label"> ... </span>
-            </label>
+          <label>
+            <span class="label">Speed</span>
+            <select id="stacked-state" name="speed">
+              <option value="1000">Small</option>
+              <option value="600">Medium</option>
+              <option value="400">Fast</option>
+              <option value="200">Faster</option>
+              <option value="100">Extra</option>
+            </select>
+          </label>
         </form>
         <button id="start-game" class="ui green basic button">Start Game</button>
         <button style="display: none;" id="end-game" class="ui red basic button">End Game</button>
