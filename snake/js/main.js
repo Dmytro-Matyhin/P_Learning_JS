@@ -7,7 +7,7 @@ let borderSize = 2;
 let gridCount = 13;
 let speed = 500;
 let processGame, messageBox, startButton, endButton, gridContainer, scoreValue;
-let snake = createSnakeData(Math.floor(gridCount / 2), Math.floor(gridCount / 2), 6);
+let snake = createSnakeData(Math.floor(gridCount / 2), Math.floor(gridCount / 2), 5);
 let food = createFood();
 let direction = 'left';
 let score = 0;
@@ -79,7 +79,7 @@ function startGame() {
 
   updateSnake();
   processGame = setInterval(() => {
-    let {cell, row} = snake[0];
+    let {cell, row} = noWallMode(snake[0]);
 
     switch (direction) {
       case 'left': {
@@ -119,7 +119,7 @@ function startGame() {
   function updateSnake() {
 
     checkOnEated(randomBox.dataset);
-    // checkOnTailCrush()
+    checkOnTailCrush();
 
     for (const [index, snakePart] of snake.entries()) {
       let cell = findByCoords(snakePart.cell, snakePart.row);
@@ -141,8 +141,32 @@ function startGame() {
     }
   }
 
-  // function checkOnTailCrush(){}
-  // function noWallMode(){}
+  function checkOnTailCrush() {
+    let snakeHead = snake[0];
+
+    for (let snakeBody of snake.slice(1)) {
+      if (snakeHead.cell == snakeBody.cell && snakeHead.row == snakeBody.row) {
+        endGame();
+        break;
+      }
+    }
+  }
+
+  function noWallMode({cell, row}) {
+
+    if (direction == 'left' && cell == 0) {
+      cell = gridCount;
+    } else if (direction == 'right' && cell == gridCount - 1) {
+      cell = -1;
+    }
+
+    if (direction == 'up' && row == 0) {
+      row = gridCount;
+    } else if (direction == 'down' && row == gridCount - 1) {
+      row = -1;
+    }
+    return {cell, row};
+  }
 
   function generateBoxForEat() {
     let cell = getRandomInt(0, gridCount);
@@ -157,7 +181,7 @@ function endGame(message = 'Game Over!') {
   clearTimeout(processGame);
   direction = 'left';
   messageBox.innerHTML = message;
-  snake = createSnakeData(Math.floor(gridCount / 2), Math.floor(gridCount / 2), 6);
+  snake = createSnakeData(Math.floor(gridCount / 2), Math.floor(gridCount / 2), 5);
   score = 0;
   hiddenElements(endButton, startButton);
   updateScore(0);
