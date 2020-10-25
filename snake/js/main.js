@@ -6,13 +6,11 @@ let boxSize = 32;
 let borderSize = 2;
 let gridCount = 13;
 let speed = 500;
-let gridContainer, messageBox, startButton, endButton, scoreValue, processGame;
-let snake = createSnakeData(Math.floor(gridCount / 2), Math.floor(gridCount / 2), 5);
+let processGame, messageBox, startButton, endButton, gridContainer, scoreValue;
+let snake = createSnakeData(Math.floor(gridCount / 2), Math.floor(gridCount / 2), 6);
 let food = createFood();
 let direction = 'left';
 let score = 0;
-
-// INITIALIZATION
 
 function init() {
   let form = find('#controls-form');
@@ -139,7 +137,7 @@ function startGame() {
       food.remove();
       randomBox = generateBoxForEat();
     } else {
-      snake.pop();
+      snake.pop()
     }
   }
 
@@ -159,6 +157,8 @@ function endGame(message = 'Game Over!') {
   clearTimeout(processGame);
   direction = 'left';
   messageBox.innerHTML = message;
+  snake = createSnakeData(Math.floor(gridCount / 2), Math.floor(gridCount / 2), 6);
+  score = 0;
   hiddenElements(endButton, startButton);
   updateScore(0);
   food.remove();
@@ -209,7 +209,7 @@ function find(selector) {
 }
 
 function updateScore(score) {
-   return scoreValue.innerHTML = score;
+   scoreValue.innerHTML = score;
 }
 
 function hiddenElements(firstElement, secondElement) {
