@@ -13,7 +13,7 @@ let spanPassword = document.createElement('span');
 
 
 function validateInputLength() {
-  form.onsubmit = function(event) {
+  form.oninput = function(event) {
     if (!event.target.value.length) {
       event.target.classList.add('error');
       event.preventDefault();
@@ -58,14 +58,6 @@ function validatePassword() {
       repeatPassword.classList.remove('error');
       spanPassword.remove();
     }
-  }
-}
-
-function userForm() {
-  return {
-    email: email.value,
-    name: name.value,
-    password: password.value,
   }
 }
 
