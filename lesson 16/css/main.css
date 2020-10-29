@@ -60,11 +60,6 @@ html {
   width: 60%;
 }
 
-/* .button:hover {
-  text-decoration: none;
-  background-color: rgb(16, 97, 204); rgb(18, 65, 128);
-} */
-
 .button:focus {
   outline: none;
 }
