@@ -77,7 +77,7 @@ function startGame() {
   messageBox.innerHTML = 'Welcome to Snake!';
   let randomBox = generateBoxForEat();
 
-  updateSnake();
+  // updateSnake();
   processGame = setInterval(() => {
     let {cell, row} = noWallMode(snake[0]);
 
@@ -172,6 +172,16 @@ function startGame() {
     let cell = getRandomInt(0, gridCount);
     let row = getRandomInt(0, gridCount);
     let randomBox = findByCoords(cell, row);
+    // randomBox.append(food);
+
+    // for (let elem of snake) {
+    //   if (elem.cell == +randomBox.dataset.cell && elem.row == +randomBox.dataset.row) {
+    //     cell = getRandomInt(0, gridCount);
+    //     row = getRandomInt(0, gridCount);
+    //     randomBox = findByCoords(cell, row);
+    //     randomBox.append(food);
+    //   }
+    // }
     randomBox.append(food);
     return randomBox;
   }
