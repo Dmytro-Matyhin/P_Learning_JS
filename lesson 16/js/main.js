@@ -5,15 +5,14 @@ let form = document.querySelector('#form');
 let email = form.elements.email;
 let name = form.elements.name;
 let password = form.elements.pass;
-let repeatPassword = form.elements.repass;
-let button = document.querySelector('input[name="button"]');
+let button = document.querySelector('button[name="button"]');
+let checkPassword = document.querySelector('#check-password');
 
 let spanEmail = document.createElement('span');
 let spanPassword = document.createElement('span');
+let spanLength = document.createElement('span');
 
-let validEmail = false;
-let validPassword = false;
-let validLength = false;
+let {validEmail, validLength, validPassword} = false;
 
 form.addEventListener('submit', submitForm);
 
@@ -25,59 +24,88 @@ function submitForm(event) {
     name: name.value,
     password: password.value,
   }; 
-  
+
   form.reset();
   validEmail = false;
   validPassword = false;
   validLength = false;
+  button.setAttribute('disabled', 'disabled');
   console.log(userData);
 }
 
-function init() {
+function init(event) {
+  form.oninput = function() {
+    validateInputLength(event.target);
+    validateEmail();
+    validatePassword();
+  }
+}
+
+function validBtn() {
+  if (validLength && validEmail && validPassword) {
+    button.removeAttribute('disabled');
+  } else {
+    button.setAttribute('disabled', 'disabled')
+  }
+}
+
+function validateInputLength() {
   form.oninput = function(event) {
     if (!event.target.value.length) {
       event.target.classList.add('error');
+      spanLength.classList.add('error-length-visible');
+      spanLength.textContent = 'Поле должно быть заполнено';
+      event.target.after(spanLength);
       validLength = false;
     } else {
       event.target.classList.remove('error');
+      spanLength.classList.remove('error-length-visible');
+      spanLength.textContent = '';
       validLength = true;
     } 
+    validBtn();
+  }
+}
   
-    email.oninput = function() {
-      if (!emailIsValid(email.value)) {
-        email.classList.add('error');
-        spanEmail.classList.add('error-email-visible');
-        spanEmail.textContent = 'Неправильный формат email';
-        email.after(spanEmail);
-        validEmail = false;
-      } else {
-        email.classList.remove('error');
-        spanEmail.classList.remove('error-email-visible');
-        spanEmail.textContent = '';
-        validEmail = true;
-      }
+function validateEmail() {
+  email.oninput = function() {
+    if (!emailIsValid(email.value)) {
+      email.classList.add('error');
+      spanEmail.classList.add('error-email-visible');
+      spanEmail.textContent = 'Неправильный формат email';
+      email.after(spanEmail);
+      validEmail = false;
+    } else {
+      email.classList.remove('error');
+      spanEmail.classList.remove('error-email-visible');
+      spanEmail.textContent = '';
+      validEmail = true;
     }
-  
-    repeatPassword.oninput = function() {
-      if (repeatPassword.value !== password.value) {
-        repeatPassword.classList.add('error');
+    validBtn();
+  }
+}
+
+function validatePassword() {
+  checkPassword.oninput = function(event) { 
+    let password = checkPassword.children.password;
+    let repeatPassword = checkPassword.children.repassword;
+   
+    if (password.value.length && repeatPassword.value.length) {
+      if (password.value !== repeatPassword.value || repeatPassword.value !== password.value) {
+        event.target.classList.add('error');
         spanPassword.classList.add('error-pass-visible');
         spanPassword.textContent = 'Пароли не совпадают';
-        repeatPassword.after(spanPassword);
+        event.target.after(spanPassword);
         validPassword = false;
       } else {
-        repeatPassword.classList.remove('error');
+        event.target.classList.remove('error');
         spanPassword.remove();
         spanPassword.textContent = '';
         validPassword = true;
       }
     }
-
-    if (validLength && validEmail && validPassword) {
-      button.removeAttribute('disabled');
-    } else {
-      button.setAttribute('disabled', 'disabled');
-    }
+    validBtn();
   }
-  emailIsValid = email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
+
+emailIsValid = email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);

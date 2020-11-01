@@ -15,14 +15,15 @@
 
       <label class="label" for="name">Имя</label>
       <input type="text" class="input" id="name" name="name">
+      <div id="check-password">
+        <label class="label" for="pass">Пароль</label>
+        <input type="password" class="input" id="pass" name="password">
 
-      <label class="label" for="pass">Пароль</label>
-      <input type="password" class="input" id="pass" name="password">
+        <label class="label" for="repass">Повторение пароля</label>
+        <input type="password" class="input" id="repass" name="repassword">
+      </div>
 
-      <label class="label" for="repass">Повторение пароля</label>
-      <input type="password" class="input" id="repass" name="re-password">
-
-      <input class="button" name="button" type="submit" value="Зарегистрироваться" disabled>
+      <button class="button" name="button" disabled="disabled">Зарегистрироваться</button>
     </form>
   </div>
   <script src="./js/main.js"></script>

@@ -9,6 +9,10 @@ html {
   background-color: #E5E5E5;
   color: #515253;
 }
+div {
+  display: flex;
+  flex-direction: column;
+}
 
 .container {
   max-width: 400px;
@@ -75,7 +79,8 @@ html {
 }
 
 .error-email-visible,
-.error-pass-visible {
+.error-pass-visible,
+.error-length-visible {
   color: red;
   padding-top: 10px;
   display: block;
