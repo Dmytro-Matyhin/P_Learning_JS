@@ -36,72 +36,72 @@ function init() {
     }
   }
 
-  function payment() {
+  function payment(ms) {
     return new Promise((resolve, reject) => {
-      resolve();
+     setTimeout(() => resolve(), ms);
       // reject();
     })
   }
-  payment().then(
-    function confirm() {
-      confirmPayment.onclick = function(event) {
-        event.preventDefault();
-        modalPayment.classList.remove('open');
-    
-        let size = pizzaSize.value;
-        let ingredients = [];
-        for (let elem of checkBox) {
-          if (elem.checked) {
-            ingredients.push(elem.value)
-          }
+
+  payment().then(() => {
+    confirmPayment.onclick = function(event) {
+      event.preventDefault();
+      modalPayment.classList.remove('open');
+
+      let size = pizzaSize.value;
+      let ingredients = [];
+      for (let elem of checkBox) {
+        if (elem.checked) {
+          ingredients.push(elem.value)
         }
-  
-        Order.createOrder({
-          size,
-          ingredients,
-          status: 'ordered',
-          });
-  
-        form.style.display = 'none';
-        coockedAlert.classList.add('coocking-progress');
-        form.after(coockedAlert);
-  
-        function promise(ms) {
-          return new Promise((resolve, reject) => {
-            setTimeout(() => resolve(), ms);
-            // reject(new Error("Whoops!"))
-            })
-        }
-        promise(2000).then(() => { 
-          pickUpAlert.classList.add('ready');
-          Order.changeOrderStatus('ordered', 'coocked');
-          coockedAlert.after(pickUpAlert);
-          return promise(2000)
-          })
-          .then(() => {
-            deliveredAlert.classList.add('shipped');
-            Order.changeOrderStatus('coocked', 'delivered');
-            pickUpAlert.after(deliveredAlert);
-            return promise(2000)
-          })
-          .then(() => {
-            formFeedback.classList.add('show-feedback');
-            deliveredAlert.after(formFeedback);
-          })
-          .catch(error => console.log(error))
       }
+
+      Order.createOrder({
+        size,
+        ingredients,
+        status: 'ordered',
+        });
+
+      form.style.display = 'none';
+      coockedAlert.classList.add('coocking-progress');
+      form.after(coockedAlert);
+    }
   })
+  .catch(error => console.log(error));
+  
+    function promise(ms) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => resolve(), ms);
+        // reject(new Error("Whoops!"))
+        })
+    }
+    promise(2000).then(() => { 
+      pickUpAlert.classList.add('ready');
+      Order.changeOrderStatus('ordered', 'coocked');
+      coockedAlert.after(pickUpAlert);
+      return promise(2000)
+      })
+      .then(() => {
+        deliveredAlert.classList.add('shipped');
+        Order.changeOrderStatus('coocked', 'delivered');
+        pickUpAlert.after(deliveredAlert);
+        return promise(2000)
+      })
+      .then(() => {
+        formFeedback.classList.add('show-feedback');
+        deliveredAlert.after(formFeedback);
+      })
     .catch(function cancel() {
-      cancelPayment.onclick = function(event) {
-        event.preventDefault();
-    
-        modalPayment.classList.remove('open');
-        alertMessage.classList.add('show-message');
-        form.after(alertMessage);
-        form.reset();
-        setTimeout(() => alertMessage.classList.remove('show-message'), 2500);
-      }
-    })
+  cancelPayment.onclick = function(event) {
+    event.preventDefault();
+
+    modalPayment.classList.remove('open');
+    alertMessage.classList.add('show-message');
+    form.after(alertMessage);
+    form.reset();
+    setTimeout(() => alertMessage.classList.remove('show-message'), 2500);
+  }
+})
   
   formFeedback.addEventListener('click', clickButtonFeedback);
 
