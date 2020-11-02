@@ -36,20 +36,27 @@ function init() {
     }
   }
 
-  function payment(ms) {
+  function payment() {
     return new Promise((resolve, reject) => {
-     setTimeout(() => resolve(), ms);
-      // reject();
+      let myModal = document.querySelector('div[name="myModal"]');
+      myModal.addEventListener('click', paymentStatus);
+      
+      function paymentStatus(event) {
+        event.preventDefault();
+        if (event.target == confirmPayment) {
+          resolve(confirmPayment);
+        } else {
+          reject(cancelPayment);
+        }
+      }
     })
   }
-
   payment().then(() => {
-    confirmPayment.onclick = function(event) {
-      event.preventDefault();
+    confirmPayment.onclick = function() {
       modalPayment.classList.remove('open');
-
       let size = pizzaSize.value;
       let ingredients = [];
+      
       for (let elem of checkBox) {
         if (elem.checked) {
           ingredients.push(elem.value)
@@ -60,54 +67,53 @@ function init() {
         size,
         ingredients,
         status: 'ordered',
-        });
+      });
 
       form.style.display = 'none';
       coockedAlert.classList.add('coocking-progress');
       form.after(coockedAlert);
     }
-  })
-  .catch(error => console.log(error));
-  
-    function promise(ms) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(), ms);
-        // reject(new Error("Whoops!"))
-        })
-    }
-    promise(2000).then(() => { 
-      pickUpAlert.classList.add('ready');
-      Order.changeOrderStatus('ordered', 'coocked');
-      coockedAlert.after(pickUpAlert);
-      return promise(2000)
-      })
-      .then(() => {
-        deliveredAlert.classList.add('shipped');
-        Order.changeOrderStatus('coocked', 'delivered');
-        pickUpAlert.after(deliveredAlert);
-        return promise(2000)
-      })
-      .then(() => {
-        formFeedback.classList.add('show-feedback');
-        deliveredAlert.after(formFeedback);
-      })
-    .catch(function cancel() {
-  cancelPayment.onclick = function(event) {
-    event.preventDefault();
 
-    modalPayment.classList.remove('open');
-    alertMessage.classList.add('show-message');
-    form.after(alertMessage);
-    form.reset();
-    setTimeout(() => alertMessage.classList.remove('show-message'), 2500);
-  }
-})
-  
+    return new Promise((resolve, reject) => {
+      setTimeout(() => resolve(), 2000);
+    });
+  })
+  .then(() => {
+    pickUpAlert.classList.add('ready');
+    Order.changeOrderStatus('ordered', 'coocked');
+    coockedAlert.after(pickUpAlert);
+
+    return new Promise((resolve, reject) => {
+      setTimeout(() => resolve(), 2000);
+    })
+  })
+  .then(() => {
+    deliveredAlert.classList.add('shipped');
+    Order.changeOrderStatus('coocked', 'delivered');
+    pickUpAlert.after(deliveredAlert);
+
+    return new Promise((resolve, reject) => {
+      setTimeout(() => resolve(), 2000);
+    })
+  })
+  .then(() => {
+    formFeedback.classList.add('show-feedback');
+    deliveredAlert.after(formFeedback);
+  })
+  .catch(function cancel() {
+    cancelPayment.onclick = function() {
+      modalPayment.classList.remove('open');
+      alertMessage.classList.add('show-message');
+      form.after(alertMessage);
+      form.reset();
+      setTimeout(() => alertMessage.classList.remove('show-message'), 2500);
+    }
+  })
+
   formFeedback.addEventListener('click', clickButtonFeedback);
 
   function clickButtonFeedback(event) {
     event.preventDefault();
-
     coockedAlert.classList.remove('coocking-progress');
     pickUpAlert.classList.remove('ready');
     deliveredAlert.classList.remove('shipped');
@@ -115,10 +121,10 @@ function init() {
 
     feedbackMessage.classList.add('answer');
     form.after(feedbackMessage);
-      setTimeout(() => {
-        feedbackMessage.classList.remove('answer');
-        form.style.display = 'block';
-        form.reset();
-      }, 3000);
+    setTimeout(() => {
+      feedbackMessage.classList.remove('answer');
+      form.style.display = 'block';
+      form.reset();
+    }, 3000);
   }
 }
