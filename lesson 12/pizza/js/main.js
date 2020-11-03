@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', init);
 function init() {
   let createOrder = document.querySelector('button[name="create-order"]');
   let checkBoxError = document.createElement('span');
-  checkBoxError.classList.add('message');
+  addClass(checkBoxError, 'message');
 
   let modalPayment = document.querySelector('div[name="modal-payment"]');
   let confirmPayment = document.querySelector('button[name="confirm-payment"]');
@@ -26,13 +26,13 @@ function init() {
 
   createOrder.onclick = function() {
     if (!validate(checkBox)) {
-      checkBoxError.classList.add('error');
+      addClass(checkBoxError, 'error');
       checkBoxError.textContent = 'Допустимо минимум 3 ингредиента';
       form.append(checkBoxError);
       return false;
     } else {
-      checkBoxError.classList.remove('error');
-      modalPayment.classList.add('open');
+      removeClass(checkBoxError, 'error');
+      addClass(modalPayment, 'open');
     }
   }
 
@@ -40,91 +40,91 @@ function init() {
     return new Promise((resolve, reject) => {
       let myModal = document.querySelector('div[name="myModal"]');
       myModal.addEventListener('click', paymentStatus);
-      
+
       function paymentStatus(event) {
-        event.preventDefault();
         if (event.target == confirmPayment) {
           resolve(confirmPayment);
         } else {
-          reject(cancelPayment);
+          // reject(cancelPayment);
         }
       }
     })
   }
   payment().then(() => {
-    confirmPayment.onclick = function() {
-      modalPayment.classList.remove('open');
-      let size = pizzaSize.value;
-      let ingredients = [];
-      
-      for (let elem of checkBox) {
-        if (elem.checked) {
-          ingredients.push(elem.value)
-        }
+    removeClass(modalPayment, 'open');
+    let size = pizzaSize.value;
+    let ingredients = [];
+    
+    for (let elem of checkBox) {
+      if (elem.checked) {
+        ingredients.push(elem.value);
       }
-
-      Order.createOrder({
-        size,
-        ingredients,
-        status: 'ordered',
-      });
-
-      form.style.display = 'none';
-      coockedAlert.classList.add('coocking-progress');
-      form.after(coockedAlert);
     }
 
-    return new Promise((resolve, reject) => {
-      setTimeout(() => resolve(), 2000);
+    Order.createOrder({
+      size,
+      ingredients,
+      status: 'ordered',
     });
-  })
-  .then(() => {
-    pickUpAlert.classList.add('ready');
-    Order.changeOrderStatus('ordered', 'coocked');
-    coockedAlert.after(pickUpAlert);
 
-    return new Promise((resolve, reject) => {
-      setTimeout(() => resolve(), 2000);
-    })
+    form.style.display = 'none';
+    addClass(coockedAlert, 'coocking-progress');
+    addElemInDOM(form, coockedAlert);
+    return delay(2000);
   })
   .then(() => {
-    deliveredAlert.classList.add('shipped');
-    Order.changeOrderStatus('coocked', 'delivered');
-    pickUpAlert.after(deliveredAlert);
-
-    return new Promise((resolve, reject) => {
-      setTimeout(() => resolve(), 2000);
-    })
+    addClass(pickUpAlert, 'ready');
+    changeStatus('ordered', 'coocked');
+    addElemInDOM(coockedAlert, pickUpAlert);
+    return delay(2000);
   })
   .then(() => {
-    formFeedback.classList.add('show-feedback');
-    deliveredAlert.after(formFeedback);
+    addClass(deliveredAlert, 'shipped');
+    changeStatus('coocked', 'delivered');
+    addElemInDOM(pickUpAlert, deliveredAlert);
+    return delay(2000);
+  })
+  .then(() => {
+    addClass(formFeedback, 'show-feedback');
+    addElemInDOM(deliveredAlert, formFeedback);
   })
   .catch(function cancel() {
-    cancelPayment.onclick = function() {
-      modalPayment.classList.remove('open');
-      alertMessage.classList.add('show-message');
-      form.after(alertMessage);
-      form.reset();
-      setTimeout(() => alertMessage.classList.remove('show-message'), 2500);
-    }
+    removeClass(modalPayment, 'open');
+    addClass(alertMessage, 'show-message');
+    addElemInDOM(form, alertMessage);
+    form.reset();
+    setTimeout(() => removeClass(alertMessage, 'show-message'), 2500);
   })
 
   formFeedback.addEventListener('click', clickButtonFeedback);
 
   function clickButtonFeedback(event) {
     event.preventDefault();
-    coockedAlert.classList.remove('coocking-progress');
-    pickUpAlert.classList.remove('ready');
-    deliveredAlert.classList.remove('shipped');
-    formFeedback.classList.remove('show-feedback');
 
-    feedbackMessage.classList.add('answer');
-    form.after(feedbackMessage);
+    removeClass(coockedAlert, 'coocking-progress');
+    removeClass(pickUpAlert, 'ready');
+    removeClass(deliveredAlert, 'shipped');
+    removeClass(formFeedback, 'show-feedback');
+
+    addClass(feedbackMessage, 'answer');
+    addElemInDOM(form, feedbackMessage);
     setTimeout(() => {
-      feedbackMessage.classList.remove('answer');
+      removeClass(feedbackMessage, 'answer');
       form.style.display = 'block';
       form.reset();
     }, 3000);
   }
+}
+
+// ADDITIONAL FUNCTIONS
+
+const addClass = (target, nameClass) => target.classList.add(nameClass);
+const removeClass = (target, nameClass) => target.classList.remove(nameClass);
+const changeStatus = (current, target) => Order.changeOrderStatus(current, target);
+const addElemInDOM = (current, target) => current.after(target);
+
+let delay = ms => {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(), ms);
+  })
 }
