@@ -16,32 +16,6 @@ photoInput.addEventListener('keyup', (event) => {
     }
 });
 
-// function main() {
-//   let id = photoInput.value;
-//   if (!isNaN(id)) {
-//     photoInput.disabled = true;
-
-//     fetch(`${url}${photoUrl}/${id}`)
-//     .then(data => {
-//       return data.json();
-//     })
-//     .then(data => {
-//       console.log(data);
-//       return loadImage(data);
-//     })
-//     .then(({
-//       image,
-//       data
-//     }) => {
-//       photContainer.append(image);
-//       photoHistory.push(data);
-//       console.log(photoHistory);
-//       photoInput.disabled = false;
-//       photoInput.focus();
-//     })
-//   }
-// }
-
 async function main() {
   let id = photoInput.value;
   if (!isNaN(id)) {
@@ -64,7 +38,6 @@ async function main() {
     }
   }
 }
-// main()
 
 function loadImage(data) {
     return new Promise(function (resolve, reject) {
