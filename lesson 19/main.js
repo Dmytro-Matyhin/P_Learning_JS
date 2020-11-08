@@ -11,50 +11,53 @@ buttonRequest.addEventListener('click', main);
 
 function main(event) {
   event.preventDefault();
-
-  let code = document.querySelector('#code');
-
   let id = input.value;
 
-  fetch(`${url}${posts}/${id}`)
-  .then(response => {
-    return response.json();
-  })
-  .then(data => {
-    console.log(data); 
-    for (let key of Object.entries(data)) {
-      let ulPost = document.createElement('ul');
-      let liPost = document.createElement('li');
-      liPost.innerHTML = key.join(': ');
-      ulPost.append(liPost)
-      form.append(ulPost)
-    }
-    return loadComments(comments)
-  })
-  .then(response => {
-    return response.json();
+  requestPost(id).then(request => {
+    return request.json();
   })
   .then(data => {
     console.log(data)
-    
-    for (let key of data) {
-      let ulComments = document.createElement('ul');
-      for (let value of Object.entries(key)) {
-        let liComments = document.createElement('li');
-        liComments.innerHTML = value.join(': ')
-        ulComments.append(liComments);
-      }
-
-      code.after(ulComments);
-    }
+    let postTitle = data.title;
+    let postBody = data.body;
+    let div = document.createElement('div');
+    let title = document.createElement('h3');
+    let description = document.createElement('p');
+    title.innerHTML = 'Title: ' + postTitle;
+    description.innerHTML = '<b>Body:</b> ' + postBody;
+    div.append(title);
+    div.append(description);
+    form.append(div);
+    return requestCommentsByPostId(comments);
+  })
+  .then(request => {
+    return request.json();
+  })
+  .then(data => {
+    console.log(data)
+    data.forEach(item => {
+      let commentName = item.name;
+      let commentBody = item.body;
+      let div = document.createElement('div');
+      let commentTitle = document.createElement('p');
+      let comment = document.createElement('p');
+      commentTitle.innerHTML = '<b>Comment Title:</b> ' + commentName;
+      comment.innerHTML = '<b>Comment Body:</b> ' + commentBody; 
+      div.append(commentTitle);
+      div.append(comment);
+      form.after(div);
+      form.reset()
+    })
   })
 }
 
 
-function loadComments(data) {
-  let id = input.value;
 
-  return new Promise((resolve) => {
-    resolve(fetch(`${url}${posts}/${id}/${data}`));
-  })
+function requestPost(id) {
+  return fetch(`${url}${posts}/${id}`);
+}
+
+function requestCommentsByPostId(com) {
+  let id = input.value;
+  return fetch(`${url}${posts}/${id}/${com}`);
 }
