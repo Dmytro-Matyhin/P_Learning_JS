@@ -33,68 +33,68 @@ function init() {
     } else {
       removeClass(checkBoxError, 'error');
       addClass(modalPayment, 'open');
-    }
-  }
 
-  function payment() {
-    return new Promise((resolve, reject) => {
-      let myModal = document.querySelector('div[name="myModal"]');
-      myModal.addEventListener('click', paymentStatus);
-
-      function paymentStatus(event) {
-        if (event.target == confirmPayment) {
-          resolve(confirmPayment);
-        } else {
-          // reject(cancelPayment);
-        }
-      }
-    })
-  }
-  payment().then(() => {
-    removeClass(modalPayment, 'open');
-    let size = pizzaSize.value;
-    let ingredients = [];
+      function payment() {
+        return new Promise((resolve, reject) => {
+          let myModal = document.querySelector('div[name="myModal"]');
+          myModal.addEventListener('click', paymentStatus, {once: true});
     
-    for (let elem of checkBox) {
-      if (elem.checked) {
-        ingredients.push(elem.value);
+          function paymentStatus(event) {
+            if (event.target == confirmPayment) {
+              resolve(confirmPayment);
+            } else {
+              reject(cancelPayment);
+            }
+          }
+        })
       }
+      payment().then(() => {
+        removeClass(modalPayment, 'open');
+        let size = pizzaSize.value;
+        let ingredients = [];
+        
+        for (let elem of checkBox) {
+          if (elem.checked) {
+            ingredients.push(elem.value);
+          }
+        }
+    
+        Order.createOrder({
+          size,
+          ingredients,
+          status: 'ordered',
+        });
+    
+        form.style.display = 'none';
+        addClass(coockedAlert, 'coocking-progress');
+        addElemInDOM(form, coockedAlert);
+        return delay(2000);
+      })
+      .then(() => {
+        addClass(pickUpAlert, 'ready');
+        changeStatus('ordered', 'coocked');
+        addElemInDOM(coockedAlert, pickUpAlert);
+        return delay(2000);
+      })
+      .then(() => {
+        addClass(deliveredAlert, 'shipped');
+        changeStatus('coocked', 'delivered');
+        addElemInDOM(pickUpAlert, deliveredAlert);
+        return delay(2000);
+      })
+      .then(() => {
+        addClass(formFeedback, 'show-feedback');
+        addElemInDOM(deliveredAlert, formFeedback);
+      })
+      .catch(function cancel() {
+        removeClass(modalPayment, 'open');
+        addClass(alertMessage, 'show-message');
+        addElemInDOM(form, alertMessage);
+        form.reset();
+        setTimeout(() => removeClass(alertMessage, 'show-message'), 2500);
+      })
     }
-
-    Order.createOrder({
-      size,
-      ingredients,
-      status: 'ordered',
-    });
-
-    form.style.display = 'none';
-    addClass(coockedAlert, 'coocking-progress');
-    addElemInDOM(form, coockedAlert);
-    return delay(2000);
-  })
-  .then(() => {
-    addClass(pickUpAlert, 'ready');
-    changeStatus('ordered', 'coocked');
-    addElemInDOM(coockedAlert, pickUpAlert);
-    return delay(2000);
-  })
-  .then(() => {
-    addClass(deliveredAlert, 'shipped');
-    changeStatus('coocked', 'delivered');
-    addElemInDOM(pickUpAlert, deliveredAlert);
-    return delay(2000);
-  })
-  .then(() => {
-    addClass(formFeedback, 'show-feedback');
-    addElemInDOM(deliveredAlert, formFeedback);
-  })
-  .catch(function cancel() {
-    removeClass(modalPayment, 'open');
-    addClass(alertMessage, 'show-message');
-    addElemInDOM(form, alertMessage);
-    form.reset();
-    setTimeout(() => removeClass(alertMessage, 'show-message'), 2500);
-  })
+  }
 
   formFeedback.addEventListener('click', clickButtonFeedback);
 
