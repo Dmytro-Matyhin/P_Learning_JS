@@ -1,0 +1,47 @@
+{
+  "users": [
+    {
+      "name": "Trevor Philips",
+      "email": "killer_trevor@gta.com",
+      "password": "daredevil",
+      "usersId": "OMADM8iAu"
+    },
+    {
+      "name": "Franklin Clinton",
+      "email": "franklin@@gta.com",
+      "password": "blackmess",
+      "usersId": "ojOJB017s"
+    },
+    {
+      "name": "Tracey De Santa",
+      "email": "fameorshame@gta.com",
+      "password": "traceyStar",
+      "usersId": "r5sWGV5DK"
+    },
+    {
+      "name": "Lester Crest",
+      "email": "fib_hater@gta.com",
+      "password": "fat-crutch",
+      "usersId": "BIP2Be00d"
+    },
+    {
+      "name": "Martín Madrazo",
+      "email": "martin-matraz@gta.com",
+      "password": "ricchirich",
+      "usersId": "IvyZ372JO"
+    },
+    {
+      "name": "Lamar Davis",
+      "email": "low_lamar@gta.com",
+      "password": "lowriderLamar",
+      "usersId": "y2IchUqCH"
+    },
+    {
+      "name": "Michael De Santa",
+      "email": "michael_de_santa@gta.com",
+      "password": "thesneakydude",
+      "usersId": "YDXELUUZU"
+    }
+  ],
+  "count": 0
+}
