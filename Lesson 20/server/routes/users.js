@@ -28,12 +28,22 @@ router.get('/', function(req, res, next) {
   });
 
 }).delete('/:id', function(req, res, next) {
-  let userForDelete = db.get('users').find(req.body).value();
-  db.get('users').remove(userForDelete).write();
+  let id = req.params.id;
+  db.get('users').remove({usersId: id}).write();
 
   res.status(200).json({
     status: 'success',
-    data: userForDelete,
+    data: id,
+  })
+
+}).put('/:id', function(req, res, next) {
+  let id = req.params.id;
+  
+  db.get('users').find({usersId: id}).assign(req.body).write();
+
+  res.status(200).json({
+    status: 'success',
+    data: req.body,
   })
 })
 

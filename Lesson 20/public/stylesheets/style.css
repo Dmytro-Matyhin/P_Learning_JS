@@ -1,31 +1,33 @@
 body {
-  /* padding: 50px; */
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box
 }
 
 a {
-  color: #00B7FF;
+  color: dodgerblue;
 }
-* {box-sizing: border-box}
+
+h1 {
+  margin-top: 0;
+}
 
 /* Add padding to containers */
+
 .container {
-  padding: 16px;
+  padding: 10px 16px;
 }
-.containerBtn {
-  max-width: 500px;
-  margin: 0 auto;
-}
- .btn-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-} 
-.delContainer {
+.delContainer,
+.updateContainer {
   display: flex;
   justify-content: space-between;
 }
+
 /* Full-width input fields */
+
 input[type=text], input[type=password] {
   width: 100%;
   padding: 15px;
@@ -33,20 +35,22 @@ input[type=text], input[type=password] {
   display: inline-block;
   border: none;
   background: #f1f1f1;
+  border-radius: 10px;
 }
-
 input[type=text]:focus, input[type=password]:focus {
   background-color: #ddd;
   outline: none;
 }
 
 /* Overwrite default styles of hr */
+
 hr {
   border: 1px solid #f1f1f1;
   margin-bottom: 25px;
 }
 
-/* Set a style for the submit/register button */
+/* Set a style for the buttons */
+
 .btn {
   color: white;
   padding: 16px 20px;
@@ -62,24 +66,27 @@ hr {
 }
 .deletebtn {
  background-color: rgb(224, 77, 77);
- width: 50%;
+ width: 45%;
 }
-
+.updateBtn {
+  color: black;
+  background-color: rgb(255, 187, 0);
+  width: 45%;
+}
 .registerbtn:hover,
-.deletebtn:hover {
+.deletebtn:hover,
+.updateBtn:hover {
   opacity:1;
 }
+
+/* Default styles */
+
 #regForm {
   display: none;
 }
-/* Add a blue text color to links */
-a {
-  color: dodgerblue;
-}
-
 .select {
   display: block;
-  width: 40%;
+  width: 45%;
   border: 1px solid black;
   padding: 16px 20px;
   border-radius: 10px;
@@ -88,4 +95,15 @@ a {
 .select:focus,
 .btn:focus {
   outline: none;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -20px -35px;
+}
+.row > .column {
+  padding: 20px 35px;
+}
+.width-1-2 {
+  width: 50%;
 }
