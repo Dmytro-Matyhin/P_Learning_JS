@@ -1,0 +1,11 @@
+alert-component  {
+  padding: 15px;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  width: 50%;
+  display: block;
+  margin: 20px 0;
+  border-radius: 5px;
+  padding: 0 10px;
+  border: 1px solid;
+}
