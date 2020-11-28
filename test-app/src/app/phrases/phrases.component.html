@@ -1,0 +1,20 @@
+<ol class="list">
+  <li class="list-item" *ngFor="let phrase of phrasesList">
+    Phrase: <b> {{phrase.value}}</b>
+    <span> - </span>
+    <i> {{phrase.language}}</i>
+  </li>
+</ol>
+<div class="add-phrase">
+  <input type="text"
+  placeholder="Value"
+  [(ngModel)]="currentValue"
+  class="add-phrase-input"
+  >
+  <input type="text"
+  placeholder="Language"
+  [(ngModel)]="currentLanguage"
+  class="add-phrase-input"
+  >
+  <button class="add-phrase-button" (click)="addPhrase()">Add phrase</button>
+</div>
