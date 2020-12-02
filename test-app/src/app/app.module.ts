@@ -4,11 +4,15 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { PhrasesComponent } from './phrases/phrases.component';
+import { ProductsComponent } from './products/products.component';
+import { ProductCardComponent } from './products/product-card/product-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PhrasesComponent,
+    ProductsComponent,
+    ProductCardComponent,
   ],
   imports: [
     BrowserModule,

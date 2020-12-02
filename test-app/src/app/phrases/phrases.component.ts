@@ -22,6 +22,8 @@ export class PhrasesComponent implements OnInit {
     if (this.currentValue && this.currentLanguage) {
       this.phrasesList.push({value: this.currentValue, language: this.currentLanguage})
     }
+    this.currentValue = '';
+    this.currentLanguage = '';
   }
 
 }

@@ -1,2 +1,9 @@
-<h1>Phrases and Translates</h1>
-<app-phrases></app-phrases>
+<!-- <h1>Phrases and Translates</h1>
+<app-phrases></app-phrases> -->
+
+<app-products>
+  <app-product-card *ngFor="let product of products" (add)="addProduct($event)" [id]="product.id">
+     {{product.name}}, Price: {{product.price}}
+  </app-product-card>   
+</app-products>
+
