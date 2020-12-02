@@ -1,6 +1,6 @@
 import {url} from './index';
 import {posts} from './index';
 
-export default function requestPost(id: string) {
-  return fetch(`${url}${posts}/${id}`);
+export default async function requestPost(id: string): Promise<Response> {
+  return await fetch(`${url}${posts}/${id}`);
 }
